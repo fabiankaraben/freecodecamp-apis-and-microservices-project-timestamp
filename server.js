@@ -18,10 +18,8 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-
-// your first API endpoint... 
-app.get("/api/:date", function (req, res) {
-  let date = new Date(req.params.date);
+function api(req, res) {
+  let date = req.params.date ? new Date(req.params.date) : new Date();
 
   let isOnlyDigits = /^\d+$/.test(req.params.date);
 
@@ -38,7 +36,11 @@ app.get("/api/:date", function (req, res) {
       utc: date.toUTCString()
     });
   }
-});
+}
+
+app.get("/api", api);
+
+app.get("/api/:date", api);
 
 process.env.PORT = 8080;
 
